@@ -279,7 +279,7 @@ void loop()
     v_2 = v_1;
 
     b_1 = _B;
-    b_2 = b_2;
+    b_2 = b_1;
 
     //moyennes glissantes pour lisser le signal de sortie
     moyenneR = (_R + r_1 + r_2) / 3;
