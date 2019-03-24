@@ -8,7 +8,6 @@ Author : TahitoaL
 #include "Array.h"
 #include <Streaming.h>
 
-
 int abba(int a, int color)
 {
     int b = int(a * float(color));
@@ -151,7 +150,7 @@ int timer::getDelay()
 #define sensorOut 7
 
 timer timer1(2000);
-timer timer2(200);
+timer timer2(50);
 
 // Array<int, 3> couleurLigne = 
 
@@ -185,13 +184,13 @@ Color blue(0, 0, 255, "Bleu");
 Color yellow(255, 255, 0, "Jaune");
 Color brown(128, 0, 0, "Marron");
 Color green(0, 128, 0, "Vert");
-Color olive(128, 158, 100, "Vert olive");
+Color olive(128, 128, 0, "Vert olive");
 Color aqua(0, 255, 255, "Turquoise");
 Color navy(0, 50, 128, "Blue marine");
 Color fuschia(255, 0, 255, "Fuschia");
-Color purple(128, 10, 128, "Violet");
-// Color orange(255, 165, 0, "Orange");
-Color tomette(174, 74, 52, "Orange");
+Color purple(128, 0, 128, "Violet");
+Color orange(255, 165, 0, "Orange");
+Color tomette(174, 74, 52, "Rouge tomette");
 Color poussin(254, 227, 71, "Jaune poussin");
 Color currentColor(0, 0, 0, "Couleur détectée");
 
@@ -246,7 +245,7 @@ void loop()
 
     //redressement des valeurs
     Red = map(_red, 25, 72, 255, 0);
-    Green = map(_green, 30, 100, 255, 0);
+    Green = map(_green, 30, 90, 255, 0);
     Blue = map(_blue, 25, 70, 255, 0);
 
     //définition valeurs max et min
@@ -258,7 +257,7 @@ void loop()
         max = max + (max - min) / 2;
         min = min - (max - min) / 2;
     }
-    
+
     //mise a l'échelle
     if (max <= 255 || min >= 0)
     {
@@ -267,10 +266,10 @@ void loop()
         _B = map(Blue, min, max, 0, 255);
     }
 
-    // if (max <= 20)
-    // {
-    //     max = 20;
-    // }
+    if (max <= 20)
+    {
+        max = 20;
+    }
 
     //sauvegarde des états antérieurs
     r_1 = _R;
@@ -280,7 +279,7 @@ void loop()
     v_2 = v_1;
 
     b_1 = _B;
-    b_2 = b_1;
+    b_2 = b_2;
 
     //moyennes glissantes pour lisser le signal de sortie
     moyenneR = (_R + r_1 + r_2) / 3;
@@ -290,7 +289,7 @@ void loop()
 
     //calcul de l'écart entre la couleur de référence et observée
     ecart = abs(referenceColorR - moyenneR)^2 + abs(referenceColorG - moyenneV)^2 + abs(referenceColorB - moyenneB)^2;
-    // proba = map(ecart, 0, 3 * 255 * 4, 100, 0);
+    proba = map(ecart, 0, 3 * 255 * 4, 100, 0);
     
     //
     if (!detectedState && ecart < 60)
@@ -369,11 +368,11 @@ void loop()
         minGap = currentColor.compare(purple);
         detectedColor = purple.getName();
     }
-    // if (currentColor.compare(orange) < minGap)
-    // {
-    //     minGap = currentColor.compare(orange);
-    //     detectedColor = orange.getName();
-    // }
+    if (currentColor.compare(orange) < minGap)
+    {
+        minGap = currentColor.compare(orange);
+        detectedColor = orange.getName();
+    }
     if (currentColor.compare(tomette) < minGap)
     {
         minGap = currentColor.compare(tomette);
@@ -388,13 +387,19 @@ void loop()
     currentColor.setColor(moyenneR, moyenneV, moyenneB);
 
 
-    Serial << "*n " << detectedColor << endl;
+    // Serial << "*n " << detectedColor << endl;
 
-    //format rgb(r, g, b,) pour envoie via NodeJS    
-    Serial << "*c rgb(" << moyenneR << "," << moyenneV << "," << moyenneB << ")" << endl;
-    Serial << "*p " << detectedState << endl;
+    // //format rgb(r, g, b,) pour envoie via NodeJS    
+    // Serial << "*c rgb(" << moyenneR << "," << moyenneV << "," << moyenneB << ")" << endl;
+    // Serial << "*p " << detectedState << endl;
+    if(timer1.timeIsUp())
+    {
+        timer1.init();
+        ledState = !ledState;
+        digitalWrite(8, ledState ? LOW : HIGH);
+    }
 
 
-    // Serial << moyenneR << "," << (ledState ? "1" : "0") << endl; 
+    Serial << moyenneR << "," << (ledState ? "1" : "0") << endl; 
     // delay(5);
 }
