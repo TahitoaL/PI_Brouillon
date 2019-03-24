@@ -1,12 +1,7 @@
-/* -------------------------- *\
-            PI RUNBOT
-Author : TahitoaL
-2019
-\* -------------------------- */
-
 let SerialPort = require('serialport')
 let Readline = SerialPort.parsers.Readline
 let portAdress = "COM4"
+let fs = require('fs')
 
 let app = require('express')();
 let server = require('http').Server(app);
@@ -18,7 +13,11 @@ let parser = new Readline()
 
 port.pipe(parser)
 parser.on('data', (data) => {
-    console.log(portAdress + "> " + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + ' : ' + data)
+    console.log(portAdress + "> " + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + ':' + new Date().getMilliseconds() + ' : ' + data)
+    fs.appendFile('data.csv', new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + ':' + new Date().getMilliseconds() + ';' + data.split(',')[0] + ';' + data.split(',')[1], (err) => {
+      if (err) throw err
+      console.log('SAVED')
+    })
     if (data.startsWith('*'))
     {
       let action = data.replace('*', '').charAt(0)
