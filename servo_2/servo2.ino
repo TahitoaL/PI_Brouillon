@@ -6,7 +6,7 @@ int n; //value to write to servo
 void setup() {
   Serial.begin(9600);
   myservo.writeMicroseconds(1500); //set initial servo position if desired
-  myservo.attach(6, 500, 2500);  //the pin for the servo control, and range if desired
+  myservo.attach(7);  //the pin for the servo control, and range if desired
   Serial.println("servo all-in-one test code 12-25-13"); // so I can keep track of what is loaded
   Serial.println();
   pinMode(13, OUTPUT);
