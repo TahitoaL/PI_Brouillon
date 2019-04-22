@@ -144,14 +144,14 @@ int timer::getDelay()
 
 
 //Définition valeurs pin
-#define S0 3
-#define S1 4
-#define S2 5
-#define S3 6
-#define sensorOut 7
+#define S0 28
+#define S1 30
+#define S2 32
+#define S3 34
+#define sensorOut 36
 
-timer timer1(2000);
-timer timer2(200);
+// timer timer1(2000);
+timer timer2(5);
 
 // Array<int, 3> couleurLigne = 
 
@@ -208,6 +208,10 @@ void setup()
     digitalWrite(11, HIGH);
     pinMode(12, OUTPUT);
     digitalWrite(12, HIGH);
+    pinMode(22, OUTPUT);
+    digitalWrite(22, HIGH);
+    pinMode(26, OUTPUT);
+    digitalWrite(26, HIGH);
 
     // Setting frequency-scaling to 20%
     digitalWrite(S0, HIGH);
@@ -215,7 +219,7 @@ void setup()
     pinMode(9, OUTPUT);
     digitalWrite(9, HIGH);
 
-    timer1.init();
+    // timer1.init();
     timer2.init();
 
     Serial.begin(9600);

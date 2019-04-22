@@ -161,7 +161,19 @@ timer tempsVitesse(500);
 void setup()
 {
     pinMode(11, OUTPUT);
-    analogWrite(11, 150);
+    analogWrite(11, 255);
+
+    pinMode(22, OUTPUT);
+    digitalWrite(22, HIGH);
+    pinMode(26, OUTPUT);
+    digitalWrite(26, HIGH);
+
+    for(int i = 22; i < 53; i++)
+    {
+        pinMode(i, OUTPUT);
+        digitalWrite(i, HIGH);
+    }
+    
 
     aimantVitesse.setUp(0);
     tempsVitesse.init();
@@ -191,8 +203,9 @@ void loop()
     else
     {
         tempsVitesse.init();
-        Serial << c << endl;
+        float distance = c * 0.24 * 2;
+        float vitesse = distance * 3.6;
+        Serial << "Nb de tour : " << c << endl << "Ditance : " << distance << endl << "Vitesse : " << vitesse  << endl;
         c = 0;
     }
-    delay(2);
 }

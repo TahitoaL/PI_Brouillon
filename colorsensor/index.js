@@ -6,7 +6,7 @@ Author : TahitoaL
 
 let SerialPort = require('serialport')
 let Readline = SerialPort.parsers.Readline
-let portAdress = "COM4"
+let portAdress = "COM5"
 
 let app = require('express')();
 let server = require('http').Server(app);
